@@ -47,7 +47,6 @@
         backdrop-filter: blur(10px);
     }
 
-    /* زوايا النيون */
     .container::before, .container::after {
         content: '';
         position: absolute;
@@ -74,7 +73,6 @@
         align-items: center;
     }
 
-    /* مكان الصورة */
     .logo-placeholder {
         width: 120px;
         height: 120px;
@@ -243,6 +241,89 @@
         grid-column: 1 / -1;
     }
 
+    /* ستايل اختيار الرابط الأساسي */
+    .link-selector {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 25px;
+    }
+
+    .link-selector-label {
+        font-size: 14px;
+        color: var(--neon-blue);
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+
+    .link-option {
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid #222;
+        border-radius: 4px;
+        padding: 12px 15px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .link-option:hover {
+        border-color: var(--neon-blue);
+        box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+    }
+
+    .link-option input[type="radio"] {
+        display: none;
+    }
+
+    .link-option .radio-ui {
+        width: 18px;
+        height: 18px;
+        border: 2px solid #444;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+
+    .link-option .radio-ui::after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        background: var(--neon-blue);
+        border-radius: 50%;
+        opacity: 0;
+        transform: scale(0);
+        transition: all 0.2s;
+        box-shadow: 0 0 8px var(--neon-blue);
+    }
+
+    .link-option input[type="radio"]:checked + .radio-ui {
+        border-color: var(--neon-blue);
+    }
+
+    .link-option input[type="radio"]:checked + .radio-ui::after {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .link-option .link-text {
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 14px;
+        color: var(--text-muted);
+        direction: ltr;
+        text-align: left;
+        transition: color 0.2s;
+    }
+
+    .link-option input[type="radio"]:checked ~ .link-text {
+        color: #fff;
+        text-shadow: 0 0 5px rgba(255,255,255,0.3);
+    }
+
     .btn {
         width: 100%;
         padding: 16px;
@@ -327,7 +408,6 @@
 
 <div class="container">
     <div class="header">
-        <!-- مكان الصورة بتاعتك، حط الرابط بتاعها مكان YOUR_IMAGE_URL_HERE -->
         <div class="logo-placeholder">
             <img src="https://i.ibb.co/vvg2sGhf/1794889466796.jpg" alt="Easy Trick Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=color:#00f3ff;font-size:12px;text-align:center;>أضف<br>صورة</span>';">
         </div>
@@ -420,6 +500,21 @@
         </label>
     </div>
 
+    <!-- اختيار الرابط الأساسي -->
+    <div class="link-selector">
+        <div class="link-selector-label">اختر الرابط الأساسي:</div>
+        <label class="link-option">
+            <input type="radio" name="base-link" value="https://host895.github.io/FastDownload/dl.html?u=" checked>
+            <div class="radio-ui"></div>
+            <div class="link-text">host895.github.io/FastDownload/dl.html</div>
+        </label>
+        <label class="link-option">
+            <input type="radio" name="base-link" value="https://fastdownload.owijdhdjokes.workers.dev?u=">
+            <div class="radio-ui"></div>
+            <div class="link-text">fastdownload.owijdhdjokes.workers.dev</div>
+        </label>
+    </div>
+
     <button class="btn btn-primary" onclick="generate()">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
         توليد الرابط
@@ -453,10 +548,13 @@ function generate() {
 
     const encoded = btoa(unescape(encodeURIComponent(params.toString())));
 
+    const selectedBase = document.querySelector('input[name="base-link"]:checked').value;
+    const finalUrl = selectedBase + encoded;
+
     const resultBox = document.getElementById("resultBox");
     const resultInput = document.getElementById("result");
     
-    resultInput.value = "https://host895.github.io/FastDownload/dl.html?u=" + encoded;
+    resultInput.value = finalUrl;
     resultBox.style.display = "block";
     
     const copyBtn = document.getElementById("copyBtn");
@@ -482,4 +580,4 @@ function copyLink() {
 </script>
 
 </body>
-  </html>
+    </html>
